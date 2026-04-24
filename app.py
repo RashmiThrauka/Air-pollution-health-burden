@@ -68,7 +68,9 @@ st.divider()
 tab1, tab2, tab3, tab4, tab5 = st.tabs(["🗺️ Map", "📊 Country Ranking", "🔬 Analysis", "🔄 Comparison", "📋 Data"])
 
 with tab1:
-    map_data = filtered.copy()
+    outcome_list = sorted(filtered["Outcome"].unique())
+    selected_outcome = st.selectbox("Select health outcome", outcome_list, index=outcome_list.index("All causes") if "All causes" in outcome_list else 0)
+    map_data = filtered[filtered["Outcome"] == selected_outcome]
     fig_map = px.choropleth(
         map_data,
         locations="Country Or Territory",
