@@ -71,13 +71,14 @@ with tab1:
     map_data = filtered.copy()
     fig_map = px.choropleth(
         map_data,
-        locations="NUTS Code",
+        locations="Country Or Territory",
+        locationmode="country names",
         color="Value for 100k Of Affected Population",
         hover_name="Country Or Territory",
         hover_data={
             "Value": ":,.0f",
             "Air Pollution Population Weighted Average [ug/m3]": ":.1f",
-            "NUTS Code": False
+            "Country Or Territory": False
         },
         color_continuous_scale="YlOrRd",
         labels={
