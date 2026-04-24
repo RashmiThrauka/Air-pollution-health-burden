@@ -72,7 +72,6 @@ with tab1:
     fig_map = px.choropleth(
         map_data,
         locations="NUTS Code",
-        locationmode="ISO-3166-1 alpha-2",
         color="Value for 100k Of Affected Population",
         hover_name="Country Or Territory",
         hover_data={
