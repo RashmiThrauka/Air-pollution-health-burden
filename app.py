@@ -120,7 +120,10 @@ with tab1:
 
 with tab2:
     st.subheader("Country Ranking by Health Burden")
-    rank_data = filtered[["Country Or Territory", "Value for 100k Of Affected Population", "Value"]].sort_values(
+    rank_outcomes = sorted(filtered["Outcome"].unique())
+    rank_outcome = st.selectbox("Select health outcome", rank_outcomes, index=rank_outcomes.index("All causes") if "All causes" in rank_outcomes else 0, key="rank_outcome")
+    rank_filtered = filtered[filtered["Outcome"] == rank_outcome]
+    rank_data = rank_filtered[["Country Or Territory", "Value for 100k Of Affected Population", "Value"]].sort_values(
         "Value for 100k Of Affected Population", ascending=True
     )
     fig_rank = px.bar(
