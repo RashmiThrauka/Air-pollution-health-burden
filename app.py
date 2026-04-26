@@ -65,7 +65,7 @@ with col4:
 
 st.divider()
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([" Global Map", "Country Ranking", "Analysis", "Comparison"])
+tab1, tab2, tab3, tab4 = st.tabs([" Global Map", "Country Ranking", "Analysis", "Comparison"])
 
 with tab1:
     outcome_list = sorted(filtered["Outcome"].unique())
