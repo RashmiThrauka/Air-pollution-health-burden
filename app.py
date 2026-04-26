@@ -141,7 +141,7 @@ with tab2:
             y="Value for 100k Of Affected Population",
             color="Air Pollutant",
             barmode="group",
-            color_discrete_map={"PM2.5": "#2e86ab", "NO2": "#a23b72", "O3": "#f18f01"},
+            color_discrete_map={"PM2.5": "#2c3e50", "NO2": "#5d6d7e", "O3": "#85929e"},
             labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": "", "Air Pollutant": "Pollutant"}
         )
         fig_poll.update_layout(height=450, xaxis_tickangle=-30)
