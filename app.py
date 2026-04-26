@@ -65,7 +65,7 @@ with col4:
 
 st.divider()
 
-tab1, tab2, tab3 = st.tabs([" Global Map","Analysis", "Comparison"])
+tab1, tab2, tab3 = st.tabs([" Global Map", "Comparison","Analysis"])
 
 with tab1:
     outcome_list = sorted(filtered["Outcome"].unique())
@@ -117,8 +117,47 @@ with tab1:
         bottom10["Per 100k"] = bottom10["Per 100k"].round(1)
         bottom10["Total"] = bottom10["Total"].apply(lambda x: f"{x:,.0f}")
         st.dataframe(bottom10, use_container_width=True)
-
+        
 with tab2:
+    st.subheader("Compare Countries")
+    compare_countries = st.multiselect(
+        "Select countries to compare (max 10)",
+        all_countries,
+        default=all_countries[:3] if len(all_countries) >= 3 else all_countries,
+        max_selections=10
+    )
+
+    if compare_countries:
+        pollutant_compare = country_data[
+        (country_data["Country Or Territory"].isin(compare_countries if compare_countries else all_countries[:5])) &
+        (country_data["Category"] == selected_category) &
+        (country_data["Health Indicator"] == selected_indicator) &
+        (country_data["Outcome"] == "All causes")
+    ]
+    if not pollutant_compare.empty:
+        fig_poll = px.bar(
+            pollutant_compare,
+            x="Country Or Territory",
+            y="Value for 100k Of Affected Population",
+            color="Air Pollutant",
+            barmode="group",
+            labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": "", "Air Pollutant": "Pollutant"}
+        )
+        fig_poll.update_layout(height=450, xaxis_tickangle=-30)
+        st.plotly_chart(fig_poll, use_container_width=True)
+        
+        st.subheader("Summary Table")
+        summary = pollutant_compare[["Country Or Territory", "Air Pollutant", "Value", "Value for 100k Of Affected Population",
+                                         "Air Pollution Population Weighted Average [ug/m3]"]].copy()
+        summary.columns = ["Country", "Pollutant", "Total Burden", "Per 100k", "Pollution (µg/m³)"]
+        summary["Total Burden"] = summary["Total Burden"].apply(lambda x: f"{x:,.0f}")
+        summary["Per 100k"] = summary["Per 100k"].round(1)
+        summary["Pollution (µg/m³)"] = summary["Pollution (µg/m³)"].round(1)
+        summary = summary.sort_values(["Country", "Pollutant"]).reset_index(drop=True)
+        summary.index = summary.index + 1
+        st.dataframe(summary, use_container_width=True)
+
+with tab3:
     col_left, col_right = st.columns(2)
 
     with col_left:
@@ -165,42 +204,3 @@ with tab2:
         )
         fig_outcome.update_layout(height=max(250, len(outcome_agg) * 40))
         st.plotly_chart(fig_outcome, use_container_width=True)
-
-with tab3:
-    st.subheader("Compare Countries")
-    compare_countries = st.multiselect(
-        "Select countries to compare (max 10)",
-        all_countries,
-        default=all_countries[:3] if len(all_countries) >= 3 else all_countries,
-        max_selections=10
-    )
-
-    if compare_countries:
-        pollutant_compare = country_data[
-        (country_data["Country Or Territory"].isin(compare_countries if compare_countries else all_countries[:5])) &
-        (country_data["Category"] == selected_category) &
-        (country_data["Health Indicator"] == selected_indicator) &
-        (country_data["Outcome"] == "All causes")
-    ]
-    if not pollutant_compare.empty:
-        fig_poll = px.bar(
-            pollutant_compare,
-            x="Country Or Territory",
-            y="Value for 100k Of Affected Population",
-            color="Air Pollutant",
-            barmode="group",
-            labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": "", "Air Pollutant": "Pollutant"}
-        )
-        fig_poll.update_layout(height=450, xaxis_tickangle=-30)
-        st.plotly_chart(fig_poll, use_container_width=True)
-        
-        st.subheader("Summary Table")
-        summary = pollutant_compare[["Country Or Territory", "Air Pollutant", "Value", "Value for 100k Of Affected Population",
-                                         "Air Pollution Population Weighted Average [ug/m3]"]].copy()
-        summary.columns = ["Country", "Pollutant", "Total Burden", "Per 100k", "Pollution (µg/m³)"]
-        summary["Total Burden"] = summary["Total Burden"].apply(lambda x: f"{x:,.0f}")
-        summary["Per 100k"] = summary["Per 100k"].round(1)
-        summary["Pollution (µg/m³)"] = summary["Pollution (µg/m³)"].round(1)
-        summary = summary.sort_values(["Country", "Pollutant"]).reset_index(drop=True)
-        summary.index = summary.index + 1
-        st.dataframe(summary, use_container_width=True)
