@@ -65,7 +65,7 @@ with col4:
 
 st.divider()
 
-tab1, tab2, tab3, tab4 = st.tabs([" Global Map", "Country Ranking", "Analysis", "Comparison"])
+tab1, tab2, tab3 = st.tabs([" Global Map","Analysis", "Comparison"])
 
 with tab1:
     outcome_list = sorted(filtered["Outcome"].unique())
@@ -119,27 +119,6 @@ with tab1:
         st.dataframe(bottom10, use_container_width=True)
 
 with tab2:
-    st.subheader("Country Ranking by Health Burden")
-    rank_outcomes = sorted(filtered["Outcome"].unique())
-    rank_outcome = st.selectbox("Select health outcome", rank_outcomes, index=rank_outcomes.index("All causes") if "All causes" in rank_outcomes else 0, key="rank_outcome")
-    rank_filtered = filtered[filtered["Outcome"] == rank_outcome]
-    rank_data = rank_filtered[["Country Or Territory", "Value for 100k Of Affected Population", "Value"]].sort_values(
-        "Value for 100k Of Affected Population", ascending=True
-    )
-    fig_rank = px.bar(
-        rank_data,
-        x="Value for 100k Of Affected Population",
-        y="Country Or Territory",
-        orientation="h",
-        color="Value for 100k Of Affected Population",
-        color_continuous_scale="YlOrRd",
-        labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": ""},
-        hover_data={"Value": ":,.0f"}
-    )
-    fig_rank.update_layout(height=max(400, len(rank_data) * 22), showlegend=False, coloraxis_showscale=False)
-    st.plotly_chart(fig_rank, use_container_width=True)
-
-with tab3:
     col_left, col_right = st.columns(2)
 
     with col_left:
@@ -187,7 +166,7 @@ with tab3:
         fig_outcome.update_layout(height=max(250, len(outcome_agg) * 40))
         st.plotly_chart(fig_outcome, use_container_width=True)
 
-with tab4:
+with tab3:
     st.subheader("Compare Countries")
     compare_countries = st.multiselect(
         "Select countries to compare (max 10)",
