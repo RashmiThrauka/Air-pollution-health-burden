@@ -141,7 +141,7 @@ with tab2:
             y="Value for 100k Of Affected Population",
             color="Air Pollutant",
             barmode="group",
-            color_discrete_map={"PM2.5": "#4a7c7e", "NO2": "#5f8a8b", "O3": "#2c5f5f"},
+            color_discrete_map={"PM2.5": "#2e86ab", "NO2": "#a23b72", "O3": "#f18f01"},
             labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": "", "Air Pollutant": "Pollutant"}
         )
         fig_poll.update_layout(height=450, xaxis_tickangle=-30)
@@ -201,7 +201,7 @@ with tab3:
         fig_outcome = px.bar(
             outcome_agg, x="Value", y="Outcome", orientation="h",
             labels={"Value": "Total Burden", "Outcome": ""},
-            color_discrete_sequence=["#3498DB"]
+            color_discrete_sequence=["#2e86ab"]
         )
         fig_outcome.update_layout(height=max(250, len(outcome_agg) * 40))
         st.plotly_chart(fig_outcome, use_container_width=True)
