@@ -65,7 +65,7 @@ with col4:
 
 st.divider()
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["🗺️ Map", "📊 Country Ranking", "🔬 Analysis", "🔄 Comparison", "📋 Data"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs([" Global Map", "Country Ranking", "Analysis", "Comparison"])
 
 with tab1:
     outcome_list = sorted(filtered["Outcome"].unique())
@@ -246,26 +246,3 @@ with tab4:
         )
         fig_poll.update_layout(height=450, xaxis_tickangle=-30)
         st.plotly_chart(fig_poll, use_container_width=True)
-
-with tab5:
-    st.subheader("Filtered Data")
-    display_data = filtered[[
-        "Country Or Territory", "NUTS Code", "Air Pollutant", "Category",
-        "Outcome", "Health Indicator", "Value", "Value for 100k Of Affected Population",
-        "Air Pollution Population Weighted Average [ug/m3]"
-    ]].copy()
-    display_data.columns = ["Country", "Code", "Pollutant", "Category", "Outcome",
-                            "Indicator", "Value", "Per 100k", "Pollution (µg/m³)"]
-    display_data = display_data.sort_values("Country").reset_index(drop=True)
-
-    search = st.text_input("Search by country name")
-    if search:
-        display_data = display_data[display_data["Country"].str.contains(search, case=False)]
-
-    st.dataframe(display_data, use_container_width=True, height=500)
-    st.download_button(
-        "Download filtered data as CSV",
-        display_data.to_csv(index=False),
-        "filtered_data.csv",
-        "text/csv"
-    )
