@@ -9,16 +9,6 @@ st.set_page_config(
     layout="wide"
 )
 
-st.markdown("""
-<style>
-    .stApp { background-color: #1a1a2e; color: #e0e0e0; }
-    .stMetric label { color: #8fbc8f !important; }
-    .stMetric [data-testid="stMetricValue"] { color: #e0e0e0 !important; }
-    .stSidebar { background-color: #16213e; }
-    .stTabs [data-baseweb="tab"] { color: #8fbc8f; }
-</style>
-""", unsafe_allow_html=True)
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @st.cache_data
@@ -92,7 +82,7 @@ with tab1:
             "Air Pollution Population Weighted Average [ug/m3]": ":.1f",
             "Country Or Territory": False
         },
-        color_continuous_scale="YlOrRd",
+        color_continuous_scale="Tealgrn",
         labels={
             "Value for 100k Of Affected Population": "Per 100k",
             "Air Pollution Population Weighted Average [ug/m3]": "Pollution (µg/m³)"
@@ -151,6 +141,7 @@ with tab2:
             y="Value for 100k Of Affected Population",
             color="Air Pollutant",
             barmode="group",
+            color_discrete_map={"PM2.5": "#4a7c7e", "NO2": "#5f8a8b", "O3": "#2c5f5f"},
             labels={"Value for 100k Of Affected Population": "Per 100k", "Country Or Territory": "", "Air Pollutant": "Pollutant"}
         )
         fig_poll.update_layout(height=450, xaxis_tickangle=-30)
@@ -175,7 +166,7 @@ with tab3:
         fig_hist = px.histogram(
             filtered, x="Value for 100k Of Affected Population", nbins=15,
             labels={"Value for 100k Of Affected Population": "Per 100k", "count": "Number of Countries"},
-            color_discrete_sequence=["#E74C3C"]
+            color_discrete_sequence=["#5f8a8b"]
         )
         fig_hist.update_layout(height=400, bargap=0.05)
         st.plotly_chart(fig_hist, use_container_width=True)
@@ -193,7 +184,7 @@ with tab3:
                 "Air Pollution Population Weighted Average [ug/m3]": "Pollution (µg/m³)",
                 "Value for 100k Of Affected Population": "Burden per 100k"
             },
-            color_discrete_sequence=["#E74C3C"]
+            color_discrete_sequence=["#4a7c7e"]
         )
         fig_scatter.update_layout(height=400)
         st.plotly_chart(fig_scatter, use_container_width=True)
