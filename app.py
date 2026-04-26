@@ -9,6 +9,16 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown("""
+<style>
+    .stApp { background-color: #1a1a2e; color: #e0e0e0; }
+    .stMetric label { color: #8fbc8f !important; }
+    .stMetric [data-testid="stMetricValue"] { color: #e0e0e0 !important; }
+    .stSidebar { background-color: #16213e; }
+    .stTabs [data-baseweb="tab"] { color: #8fbc8f; }
+</style>
+""", unsafe_allow_html=True)
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @st.cache_data
