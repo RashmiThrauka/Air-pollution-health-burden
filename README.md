@@ -1,5 +1,4 @@
 # Air Pollution Health Burden in Europe
-Data Science Project Lifecycle module project — University of Westminster
 ## Overview
 An interactive Streamlit dashboard exploring how air pollution affects health across 41 European countries in 2022. The project uses data from the European Environment Agency to analyse the burden caused by PM2.5, NO2, and O3 across mortality and morbidity outcomes, broken down by country, pollutant, and health indicator.
 ## Key Findings
